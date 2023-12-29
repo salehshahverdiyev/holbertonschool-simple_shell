@@ -26,6 +26,7 @@ int main(void)
 	{
 		printf("($) ");
 		getline(&buffer, &bufsize, stdin);
+<<<<<<< HEAD
 		buffer[strcspn(buffer, "\n")] = '\0';
 		if (strcmp(buffer, "exit") == 0)
 		{
@@ -60,6 +61,10 @@ int main(void)
 				wait(&status);
 			}
 		}
+=======
+		buffer[strlen(buffer) - 1] = '\0';
+		execute_command(buffer, &status);
+>>>>>>> parent of a1786c7... please pass :(
 	}
 	free(buffer);
 	return (0);
