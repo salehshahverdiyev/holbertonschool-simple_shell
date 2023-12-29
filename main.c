@@ -1,7 +1,7 @@
 #include "main.h"
 /**
  * print_environment - prints the current environment
- */
+*/
 void print_environment(void)
 {
 	extern char **environ;
@@ -40,39 +40,29 @@ int main(void)
 			free(buffer);
 			exit(status);
 		}
-		else if (strcmp(buffer, "env") == 0)
+		if (fork() == 0)
 		{
-			print_environment();
+			char *token;
+			char *args[BUFFER_SIZE];
+			int i = 0;
+				
+			token = strtok(buffer, " ");
+			while (token != NULL)
+			{
+				args[i++] = token;
+				token = strtok(NULL, " ");
+			}
+			args[i] = NULL;
+			execvp(args[0], args);
+			perror(args[0]);
+			exit(EXIT_FAILURE);
 		}
 		else
 		{
-			if (fork() == 0)
+			wait(&status);
+			if (WIFEXITED(status))
 			{
-				char *token;
-				char *args[BUFFER_SIZE];
-				int i = 0;
-				
-				token = strtok(buffer, " ");
-				while (token != NULL)
-				{
-					args[i++] = token;
-					token = strtok(NULL, " ");
-				}
-				args[i] = NULL;
-				if (execvp(args[0], args) == -1)
-				{
-					perror(args[0]);
-					exit(EXIT_FAILURE);
-				}
-			}
-			else
-			{
-				
-				wait(&status);
-				if (WIFEXITED(status))
-				{
-					status = WEXITSTATUS(status);
-				}
+				status = WEXITSTATUS(status);
 			}
 		}
 	}
