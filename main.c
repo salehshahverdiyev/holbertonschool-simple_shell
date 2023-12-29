@@ -67,8 +67,6 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	print_environment();
-
 	while (1)
 	{
 		char *path_copy = NULL;
@@ -85,6 +83,10 @@ int main(void)
 		{
 		printf("($) ");
 		}
+		}
+		if (strcmp(buffer, "env") == 0)
+		{
+		print_environment();
 		}
 		if (fork() == 0)
 		{
