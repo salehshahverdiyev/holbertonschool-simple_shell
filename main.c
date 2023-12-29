@@ -19,18 +19,29 @@ int main(void)
 		printf("($) ");
 		getline(&buffer, &bufsize, stdin);
 		buffer[strlen(buffer) - 1] = '\0';
+		if (strcmp(buffer, "exit") == 0)
+		{
+			free(buffer);
+			exit(EXIT_SUCCESS);
+		}
 		if (fork() == 0)
 		{
-			char *args[2];
+			char *token;
+			char *args[BUFFER_SIZE];
+			int i = 0;
 
-			args[0] = buffer;
-			args[1] = NULL;
-
-			if (execve(buffer, args, NULL) == -1)
+			token = strtok(buffer, " ");
+			while (token != NULL)
 			{
-				perror(buffer);
+				args[i++] = token;
+				token = strtok(NULL, " ");
 			}
-			exit(EXIT_FAILURE);
+			args[i] = NULL;
+			if (execvp(args[0], args) == -1)
+			{
+				perror(args[0]);
+				exit(EXIT_FAILURE);
+			}
 		}
 		else
 		{
