@@ -61,7 +61,10 @@ int main(void)
 			free(buffer);
 			exit(status);
 		}
+		if (status != 0)
+		{
 		printf("($) ");
+		}
 		if (fork() == 0)
 		{
 			char *token;
