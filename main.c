@@ -37,10 +37,24 @@ int main(void)
 				token = strtok(NULL, " ");
 			}
 			args[i] = NULL;
-			if (execvp(args[0], args) == -1)
+			if (args[0][0] != '/')
 			{
-				perror(args[0]);
-				exit(EXIT_FAILURE);
+				char full_path[BUFFER_SIZE];
+
+				snprintf(full_path, sizeof(full_path), "/bin/%s", args[0]);
+				if (execvp(full_path, args) == -1)
+				{
+					perror(full_path);
+					exit(EXIT_FAILURE);
+				}
+			}
+			else
+			{
+				if (execvp(args[0], args) == -1)
+				{
+					perror(args[0]);
+					exit(EXIT_FAILURE);
+				}
 			}
 		}
 		else
