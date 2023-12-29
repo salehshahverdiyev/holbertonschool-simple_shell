@@ -67,7 +67,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	print_environment;
+	print_environment();
 
 	while (1)
 	{
