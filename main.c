@@ -52,6 +52,7 @@ int main(void)
 	}
 	while (1)
 	{
+		char *path_copy = NULL;
 		printf("($) ");
 		getline(&buffer, &bufsize, stdin);
 		buffer[strlen(buffer) - 1] = '\0';
@@ -73,25 +74,33 @@ int main(void)
 				token = strtok(NULL, " ");
 			}
 			args[i] = NULL;
-			if (!file_exists(args[0]))
+			if (strchr(args[0], '/') != NULL)
 			{
-				char *path = getenv("PATH");
-				char *path_copy = strdup(path);
-				char *path_token = strtok(path_copy, ":");
-				while (path_token != NULL)
+				if (execv(args[0], args) == -1)
 				{
-					char *full_path = concat_path(path_token, args[0]);
-					
-					if (file_exists(full_path))
+					perror(args[0]);
+					exit(EXIT_FAILURE);
+				}
+				else
+				{
+					char *path = getenv("PATH");
+					char *path_copy = strdup(path);
+					char *path_token = strtok(path_copy, ":");
+					while (path_token != NULL)
 					{
-						if (execv(full_path, args) == -1)
+						char *full_path = concat_path(path_token, args[0]);
+						
+						if (file_exists(full_path))
 						{
-							perror(full_path);
-							exit(EXIT_FAILURE);
+							if (execv(full_path, args) == -1)
+							{
+								perror(full_path);
+								exit(EXIT_FAILURE);
+							}
 						}
+						free(full_path);
+						path_token = strtok(NULL, ":");
 					}
-					free(full_path);
-					path_token = strtok(NULL, ":");
 				}
 				fprintf(stderr, "%s: command not found\n", args[0]);
 				free(path_copy);
