@@ -7,7 +7,7 @@ Simple Shell is a basic UNIX command line interpreter implemented in C. It suppo
 ### Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/simple-shell.git
+git clone https://github.com/salehshahverdiyev/holbertonschool-simple_shell
 ```
 
 ### Compile the shell:
