@@ -81,7 +81,14 @@ int main(void)
 		printf("($) ");
 		getline(&buffer, &bufsize, stdin);
 		buffer[strlen(buffer) - 1] = '\0';
-		execute_command(buffer, &status);
+		if (strcmp(buffer, "env") == 0)
+		{
+			print_environment();
+		}
+		else
+		{
+			execute_command(buffer, &status);
+		}
 	}
 	free(buffer);
 	return (0);
