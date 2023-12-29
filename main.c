@@ -96,6 +96,7 @@ int main(void)
 							if (execv(full_path, args) == -1)
 							{
 								perror(full_path);
+								free(full_path);
 								exit(EXIT_FAILURE);
 							}
 						}
