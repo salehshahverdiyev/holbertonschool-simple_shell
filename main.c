@@ -56,7 +56,7 @@ int main(void)
 		printf("($) ");
 		getline(&buffer, &bufsize, stdin);
 		buffer[strlen(buffer) - 1] = '\0';
-		if (strcmp(buffer, "exit") == 0)
+		if (strcmp(buffer, "exit\n") == 0)
 		{
 			free(buffer);
 			exit(EXIT_SUCCESS);
