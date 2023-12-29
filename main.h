@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-int copy_func(void);
+
+#define BUFFER_SIZE 1024
 
 #endif
