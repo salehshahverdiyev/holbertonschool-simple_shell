@@ -43,7 +43,8 @@ int main(void)
 {
 	char *buffer;
 	size_t bufsize = BUFFER_SIZE;
-	
+	int status;
+
 	buffer = (char *)malloc(bufsize * sizeof(char));
 	if (buffer == NULL)
 	{
@@ -117,7 +118,11 @@ int main(void)
 		}
 		else
 		{
-			wait(NULL);
+			wait(&status);
+			if (WIFEXITED(status))
+			{
+			return WEXITSTATUS(status);
+			}
 		}
 	}
 	free(buffer);
