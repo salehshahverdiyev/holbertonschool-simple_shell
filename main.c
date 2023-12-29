@@ -1,18 +1,54 @@
 #include "main.h"
 /**
+ * file_exists - checks if a file exists and is executable
+ * @filename: name of the file to check
+ * Return: 1 if the file exists and is executable, 0 otherwise
+*/
+int file_exists(const char *filename)
+{
+	return (access(filename, X_OK) == 0);
+}
+
+/**
+ * concat_path - concatenates two strings with a '/' in between
+ * @path: first part of the path
+ * @command: second part of the path
+ * Return: pointer to the concatenated path
+ */
+char *concat_path(const char *path, const char *command)
+{
+	size_t len_path = strlen(path);
+	size_t len_command = strlen(command);
+	char *result = malloc(len_path + 1 + len_command + 1);
+	
+	if (result == NULL)
+	{
+		perror("Unable to allocate memory");
+		exit(EXIT_FAILURE);
+	}
+	strcpy(result, path);
+	if (result[len_path - 1] != '/')
+	{
+		strcat(result, "/");
+	}
+	strcat(result, command);
+	return (result);
+}
+
+/**
  * main - entry
- * Return: IDK
+ * Return: 0
 */
 int main(void)
 {
 	char *buffer;
 	size_t bufsize = BUFFER_SIZE;
-
+	
 	buffer = (char *)malloc(bufsize * sizeof(char));
 	if (buffer == NULL)
 	{
 		perror("Unable to allocate buffer");
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	while (1)
 	{
@@ -29,7 +65,7 @@ int main(void)
 			char *token;
 			char *args[BUFFER_SIZE];
 			int i = 0;
-
+			
 			token = strtok(buffer, " ");
 			while (token != NULL)
 			{
@@ -37,27 +73,28 @@ int main(void)
 				token = strtok(NULL, " ");
 			}
 			args[i] = NULL;
-			if (access(args[0], X_OK) == -1)
+			if (!file_exists(args[0]))
 			{
 				char *path = getenv("PATH");
-				char *path_token = strtok(path, ":");
-
+				char *path_copy = strdup(path);
+				char *path_token = strtok(path_copy, ":");
 				while (path_token != NULL)
 				{
-					char path_command[BUFFER_SIZE];
-
-					snprintf(path_command, sizeof(path_command), "%s/%s", path_token, args[0]);
-					if (access(path_command, X_OK) == 0)
+					char *full_path = concat_path(path_token, args[0]);
+					
+					if (file_exists(full_path))
 					{
-						if (execv(path_command, args) == -1)
+						if (execv(full_path, args) == -1)
 						{
-							perror(path_command);
+							perror(full_path);
 							exit(EXIT_FAILURE);
 						}
 					}
+					free(full_path);
 					path_token = strtok(NULL, ":");
 				}
 				fprintf(stderr, "%s: command not found\n", args[0]);
+				free(path_copy);
 				exit(EXIT_FAILURE);
 			}
 			else
