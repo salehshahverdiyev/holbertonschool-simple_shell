@@ -67,6 +67,8 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
+	print_environment();
+
 	while (1)
 	{
 		char *path_copy = NULL;
@@ -77,18 +79,13 @@ int main(void)
 			free(buffer);
 			exit(status);
 		}
-		else
-		{
+
 		if (status != 0)
 		{
 		printf("($) ");
 		}
 		}
-		if (strcmp(buffer, "env") == 0)
-		{
-		print_environment();
-		continue;
-		}
+
 		if (fork() == 0)
 		{
 			char *token;
