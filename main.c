@@ -87,6 +87,7 @@ int main(void)
 		if (strcmp(buffer, "env") == 0)
 		{
 		print_environment();
+		continue;
 		}
 		if (fork() == 0)
 		{
