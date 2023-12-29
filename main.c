@@ -43,7 +43,7 @@ int main(void)
 {
 	char *buffer;
 	size_t bufsize = BUFFER_SIZE;
-	int status;
+	int status = 0;
 
 	buffer = (char *)malloc(bufsize * sizeof(char));
 	if (buffer == NULL)
@@ -59,7 +59,7 @@ int main(void)
 		if (strcmp(buffer, "exit") == 0)
 		{
 			free(buffer);
-			exit(EXIT_SUCCESS);
+			exit(status);
 		}
 		printf("($) ");
 		if (fork() == 0)
@@ -122,7 +122,7 @@ int main(void)
 			wait(&status);
 			if (WIFEXITED(status))
 			{
-			return WEXITSTATUS(status);
+			status = WEXITSTATUS(status);
 			}
 		}
 	}
