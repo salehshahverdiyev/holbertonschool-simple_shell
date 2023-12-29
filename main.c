@@ -10,6 +10,21 @@ int file_exists(const char *filename)
 }
 
 /**
+ * print_environment - prints the current environment
+ */
+void print_environment(void)
+{
+    extern char **environ;
+    int i = 0;
+
+    while (environ[i] != NULL)
+    {
+        printf("%s\n", environ[i]);
+        i++;
+    }
+}
+
+/**
  * concat_path - concatenates two strings with a '/' in between
  * @path: first part of the path
  * @command: second part of the path
@@ -61,9 +76,16 @@ int main(void)
 			free(buffer);
 			exit(status);
 		}
+		else if (strcmp(buffer, "env") == 0)
+		{
+		print_environment();
+		}
+		else
+		{
 		if (status != 0)
 		{
 		printf("($) ");
+		}
 		}
 		if (fork() == 0)
 		{
