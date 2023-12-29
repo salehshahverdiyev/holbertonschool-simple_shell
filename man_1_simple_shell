@@ -1,0 +1,31 @@
+.TH man_1_simple_shell 1 "Simple Shell Manual"
+
+.SH NAME
+man_1_simple_shell \- a simple UNIX command line interpreter
+
+.SH SYNOPSIS
+.B man_1_simple_shell
+
+.SH DESCRIPTION
+Simple Shell is a basic command line interpreter that allows users to execute commands.
+
+.PP
+The shell supports the following features:
+.TP
+\- Execute basic commands
+\- Handle command lines with arguments
+\- Locate executables in the PATH
+
+.SH USAGE
+Start the shell by running:
+.PP
+.B man_1_simple_shell
+
+.SH EXIT STATUS
+The shell returns 0 on success and non-zero on failure.
+
+.SH AUTHORS
+The Simple Shell project is maintained by Saleh Shahverdiyev <salehsahverdiyev201@gmail.com> and Gunel Sultanova <gunel.sultanova@outlook.com>
+
+.SH REPORTING BUGS
+Report any bugs to the GitHub repository: https://github.com/salehshahverdiyev/holbertonschool-simple_shell/issues
