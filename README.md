@@ -1,17 +1,32 @@
 # Simple Shell
 
-## Clone
+Simple Shell is a basic UNIX command line interpreter implemented in C. It supports executing commands, handling command lines with arguments, and locating executables in the PATH.
 
-To clone Simple Shell, follow these steps:
+## Getting Started
 
-```bash
-git clone https://github.com/yourusername/simple-shell.git
-```
-
-## Using
-
-Then you can run Simple Shell using the following command:
+### Clone the repository:
 
 ```bash
-./simple_shell
+git clone https://github.com/your-username/simple-shell.git
 ```
+
+### Compile the shell:
+
+```bash
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 shell.c -o shell
+```
+
+### Run the shell:
+
+```bash
+./shell
+```
+
+
+## Features
+
+Execute basic commands
+
+Handle command lines with arguments
+
+Locate executables in the PATH
