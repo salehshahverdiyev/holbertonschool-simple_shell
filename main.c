@@ -1,52 +1,30 @@
 #include "main.h"
-#include <unistd.h>
-
 /**
  * main - entry
  * Return: IDK
- */
+*/
 int main(void)
 {
 	char *buffer;
 	size_t bufsize = BUFFER_SIZE;
 
-	pid_t child_pid;
-	int status;
-	int use_absolute_path = 0;
-
 	buffer = (char *)malloc(bufsize * sizeof(char));
 	if (buffer == NULL)
 	{
 		perror("Unable to allocate buffer");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
-
 	while (1)
 	{
 		printf("($) ");
 		getline(&buffer, &bufsize, stdin);
 		buffer[strlen(buffer) - 1] = '\0';
-
 		if (strcmp(buffer, "exit") == 0)
 		{
 			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
-
-		if (buffer[0] == '/')
-		{
-			use_absolute_path = 1;
-		}
-
-		child_pid = fork();
-
-		if (child_pid == -1)
-		{
-			perror("Error forking");
-			exit(EXIT_FAILURE);
-		}
-
-		if (child_pid == 0)
+		if (fork() == 0)
 		{
 			char *token;
 			char *args[BUFFER_SIZE];
@@ -59,31 +37,27 @@ int main(void)
 				token = strtok(NULL, " ");
 			}
 			args[i] = NULL;
-
-			if (!use_absolute_path)
+			if (access(args[0], X_OK) == -1)
 			{
-				char full_path[BUFFER_SIZE];
-
 				char *path = getenv("PATH");
-				if (path == NULL)
-				{
-					perror("Error getting PATH");
-					exit(EXIT_FAILURE);
-				}
+				char *path_token = strtok(path, ":");
 
-				token = strtok(path, ":");
-				while (token != NULL)
+				while (path_token != NULL)
 				{
-					snprintf(full_path, sizeof(full_path), "%s/%s", token, args[0]);
-					if (execvp(full_path, args) != -1)
+					char path_command[BUFFER_SIZE];
+
+					snprintf(path_command, sizeof(path_command), "%s/%s", path_token, args[0]);
+					if (access(path_command, X_OK) == 0)
 					{
-						exit(EXIT_SUCCESS);
+						if (execv(path_command, args) == -1)
+						{
+							perror(path_command);
+							exit(EXIT_FAILURE);
+						}
 					}
-
-					token = strtok(NULL, ":");
+					path_token = strtok(NULL, ":");
 				}
-
-				perror(args[0]);
+				fprintf(stderr, "%s: command not found\n", args[0]);
 				exit(EXIT_FAILURE);
 			}
 			else
@@ -97,10 +71,9 @@ int main(void)
 		}
 		else
 		{
-			waitpid(child_pid, &status, 0);
+			wait(NULL);
 		}
 	}
-
 	free(buffer);
-	return 0;
+	return (0);
 }
