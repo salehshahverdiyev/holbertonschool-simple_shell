@@ -53,7 +53,6 @@ int main(void)
 	while (1)
 	{
 		char *path_copy = NULL;
-		printf("($) ");
 		getline(&buffer, &bufsize, stdin);
 		buffer[strlen(buffer) - 1] = '\0';
 		if (strcmp(buffer, "exit") == 0)
@@ -61,6 +60,7 @@ int main(void)
 			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
+		printf("($) ");
 		if (fork() == 0)
 		{
 			char *token;
