@@ -2,21 +2,14 @@
 /**
  * print_environment - prints the current environment
 */
-void print_environment(void)
+void print_environment()
 {
-	char **environ;
 	int i = 0;
-	char *prev_var = NULL;
+	char *env_var;
 
-	while (environ[i] != NULL)
+	while ((env_var = environ[i++]) != NULL)
 	{
-		if (prev_var == NULL || strcmp(environ[i], prev_var) != 0)
-		{
-			printf("%s\n", environ[i]);
-		}
-
-		prev_var = environ[i];
-		i++;
+	printf("%s\n", env_var);
 	}
 }
 
