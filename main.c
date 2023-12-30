@@ -44,7 +44,7 @@ void execute_command(char *buffer, int *status)
 			char *token;
 			char *args[BUFFER_SIZE];
 			int i = 0;
-			
+
 			token = strtok(buffer, " ");
 			while (token != NULL)
 			{
@@ -76,7 +76,7 @@ int main(void)
 	char *buffer;
 	size_t bufsize = BUFFER_SIZE;
 	int status = 0;
-	
+
 	buffer = (char *)malloc(bufsize * sizeof(char));
 	if (buffer == NULL)
 	{
