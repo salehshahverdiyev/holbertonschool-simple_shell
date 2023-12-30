@@ -2,7 +2,7 @@
 /**
  * print_environment - prints the current environment
 */
-void print_environment()
+void print_environment(void)
 {
 	int i = 0;
 	char *env_var;
