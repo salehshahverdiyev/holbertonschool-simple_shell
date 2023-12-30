@@ -6,13 +6,20 @@ void print_environment(void)
 {
 	extern char **environ;
 	int i = 0;
-	
+	char *prev_var = NULL;
+
 	while (environ[i] != NULL)
 	{
-		printf("%s\n", environ[i]);
+		if (prev_var == NULL || strcmp(environ[i], prev_var) != 0)
+		{
+			printf("%s\n", environ[i]);
+		}
+
+		prev_var = environ[i];
 		i++;
 	}
 }
+
 
 /**
  * execute_command - execute the given command
