@@ -4,7 +4,7 @@
 */
 void print_environment(void)
 {
-	extern char **environ;
+	char **environ;
 	int i = 0;
 	char *prev_var = NULL;
 
