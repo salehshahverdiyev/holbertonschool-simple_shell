@@ -5,15 +5,12 @@
 void print_environment(void)
 {
 	extern char **environ;
-	char *prev_var = NULL;
-
-	for (int i = 0; environ[i] != NULL; i++)
+	int i = 0;
+	
+	while (environ[i] != NULL)
 	{
-		if (prev_var == NULL || strcmp(environ[i], prev_var) != 0)
-		{
 		printf("%s\n", environ[i]);
-		prev_var = environ[i];
-		}
+		i++;
 	}
 }
 
